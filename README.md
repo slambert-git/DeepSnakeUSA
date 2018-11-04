@@ -10,7 +10,7 @@ And please - be kind to snakes!
 Given an image of snake from the USA, identify whether it is likely to be a coral snake (highly venomous, no antivenom available), pit viper (highly venomous, antivenom available), or harmless (mild or no venom, not considered dangerous to humans). 
 
 ## Description:
-The DeepSnakeUSA.ipynb notebook demonstrates the training of the model. I use transfer learning and the resnet50 model. The pretrained model is >100MB, so I need to find a workaround to upload it here. For single-image prediction, I'm using a web app written with Flask (app.py). I took html templates from this repo: https://github.com/ferrygun/AIFlowers2 . Just testing things locally so far. 
+The DeepSnakeUSA.ipynb notebook demonstrates the training of the model. I use transfer learning and the resnet50 model, implemented using the fastai library. The pretrained model is >100MB, so I need to find a workaround to upload it here. For single-image prediction, I'm using a web app written with Flask (app.py). I took html templates from this repo: https://github.com/ferrygun/AIFlowers2 . Just testing things locally so far. 
 
 
 ## To Do:
