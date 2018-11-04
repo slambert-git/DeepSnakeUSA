@@ -13,8 +13,10 @@ from fastai import *
 from fastai.vision import *
 from PIL import Image
 
+
+#Load model
 fastai.defaults.device = torch.device('cpu')
-path = "/home/shea/snake_predict_test/"
+path = "/"
 tfms = get_transforms(max_zoom=1.1)
 data = ImageDataBunch.single_from_classes(path, ['Coral','NotDangerous','PitViper'], tfms=tfms, size=299).normalize(imagenet_stats)
 learn = create_cnn(data, models.resnet50)
@@ -40,7 +42,6 @@ def predict(filename):
 
 
 #Flask App 
-app = Flask(__name__, template_folder=path + 'templates/')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 	
 def allowed_file(filename):
@@ -49,7 +50,7 @@ def allowed_file(filename):
 
 
 @app.route("/")
-def template_test():
+def template_init():
     return render_template('index.html')
 
 @app.route('/', methods=['GET', 'POST'])
@@ -72,18 +73,9 @@ def upload_file():
             label=predict(filename)   
         return render_template('results.html', label=label, imagesource='../uploads/' + filename)
 
-
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
-
-from werkzeug import SharedDataMiddleware
-app.add_url_rule('/uploads/<filename>', 'uploaded_file',
-                 build_only=True)
-app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
-    '/uploads':  app.config['UPLOAD_FOLDER']
-})
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
-  app.run()
+  app.run(port=8008)
