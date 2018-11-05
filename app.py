@@ -78,4 +78,5 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
-  app.run(port=8008)
+    if "serve" in sys.argv:
+        gunicorn -b 0.0.0.0:8008 app:app
