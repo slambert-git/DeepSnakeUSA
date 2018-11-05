@@ -13,7 +13,6 @@ from fastai import *
 from fastai.vision import *
 from PIL import Image
 
-
 #Load model
 fastai.defaults.device = torch.device('cpu')
 path = "/"
@@ -22,14 +21,10 @@ data = ImageDataBunch.single_from_classes(path, ['Coral','NotDangerous','PitVipe
 learn = create_cnn(data, models.resnet50)
 learn.load('snakes-usa')
 
-
-
-
 ##App requirements / helper functions
 from werkzeug import secure_filename
 UPLOAD_FOLDER = path + 'uploads/'
 ALLOWED_EXTENSIONS = ['jpg']
-
 
 def predict(filename):
     #open image
@@ -40,14 +35,12 @@ def predict(filename):
     label=pred_class
     return label      
 
-
 #Flask App 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 	
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 @app.route("/")
 def template_init():
