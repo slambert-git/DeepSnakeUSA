@@ -12,6 +12,9 @@ RUN pip install fastai
 ADD app.py app.py
 ADD usa-snakes.pth usa-snakes.pth
 
+# Install Flask and gunicorn
+RUN pip install flask gunicorn
+
 # Run it once to trigger resnet download
 RUN python app.py
 
