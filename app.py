@@ -79,4 +79,4 @@ def uploaded_file(filename):
 
 if __name__ == '__main__':
     if "serve" in sys.argv:
-        gunicorn -b 0.0.0.0:8008 app:app
+        gunicorn -b 0.0.0.0:8008 DeepSnakeUSA:app
