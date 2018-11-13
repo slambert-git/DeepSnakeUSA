@@ -1,24 +1,24 @@
-#thanks to: https://github.com/simonw/cougar-or-not/blob/master/Dockerfile
-
 FROM python:3.6-slim-stretch
-
 RUN apt update
 RUN apt install -y python3-dev gcc
+RUN pip3 install pip --upgrade
 
-# Install pytorch and fastai
-RUN pip install torch_nightly -f https://download.pytorch.org/whl/nightly/cpu/torch_nightly.html
-RUN pip install fastai
+#These files/folders are needed to run the app
+ADD requirements.txt requirements.txt
+ADD templates templates/
+ADD uploads uploads/
+ADD application.py application.py
+ADD snakes-usa.pth snakes-usa.pth
 
-ADD app.py app.py
-ADD usa-snakes.pth usa-snakes.pth
+# Install pytorch, fastai, and flask
+RUN pip3 install torch_nightly -f https://download.pytorch.org/whl/nightly/cpu/torch_nightly.html
+RUN pip3 install -r requirements.txt
 
-# Install Flask and gunicorn
-RUN pip install flask gunicorn
+# Run app once to trigger resnet download
+RUN python3 application.py
 
-# Run it once to trigger resnet download
-RUN python app.py
+# Expose port
+EXPOSE 5000
 
-EXPOSE 8008
-
-# Start the server
-CMD ["python", "app.py", "serve"]
+# Start server
+CMD ["python3", "application.py", "serve"]
