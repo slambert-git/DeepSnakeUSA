@@ -15,7 +15,7 @@ from PIL import Image
 from werkzeug import secure_filename
 
 ## Load the pretrained resnet model
-fastai.defaults.device = torch.device('cpu')
+defaults.device = torch.device('cpu')
 tfms = get_transforms(max_zoom=1.1)
 path="./"
 data = ImageDataBunch.single_from_classes(path, ['Coral snake. No antivenin available.','Harmless. Mild or no venom, not known to be dangerous to humans.','Pit viper. Antivenin available.'], tfms=tfms, size=299).normalize(imagenet_stats)
