@@ -1,8 +1,6 @@
 # DeepSnakeUSA
 Using computer vision to identify venomous snakes from the U.S.A.
 
-The app is currently deployed through AWS Elastic Beanstalk for demo purposes: 
-
 # DISCLAIMER
 Do not rely on this repo to identify venomous snakes in the real world! It is not accurate enough for real-world application (95% validation accuracy is "good" but not good enough for this purpose)!
 Do not handle snakes that you cannot identify!
