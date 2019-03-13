@@ -18,7 +18,7 @@ from werkzeug import secure_filename
 defaults.device = torch.device('cpu')
 tfms = get_transforms(max_zoom=1.1)
 path="./"
-data = ImageDataBunch.single_from_classes(path, ['Coral snake. No antivenin available.','Harmless. Mild or no venom, not known to be dangerous to humans.','Pit viper. Antivenin available.'], tfms=tfms, size=299).normalize(imagenet_stats)
+data = ImageDataBunch.single_from_classes(path, ['Coral snake. No antivenin available.','Harmless. Mild or no venom, not known to be dangerous to humans.','Pit viper. Antivenin available.'], ds_tfms=tfms, size=299).normalize(imagenet_stats)
 learn = create_cnn(data, models.resnet50)
 learn.model.load_state_dict(torch.load("snakes-usa.pth", map_location="cpu"))
 
@@ -28,8 +28,6 @@ ALLOWED_EXTENSIONS = ['jpg']
 
 
 def predict(filename):
-    #open image
-    img = open_image(UPLOAD_FOLDER + filename)
     # do prediction
     pred_class,pred_idx,outputs = learn.predict(img)
     # return output
@@ -68,7 +66,8 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
-            label=predict(filename)   
+	    img = open_image(UPLOAD_FOLDER + filename)
+            label=predict(filename)[0]   
             return render_template('results.html', label=label, imagesource='../uploads/' + filename)
 
 
